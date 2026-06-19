@@ -1,0 +1,67 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Camera Parameters — Dashcam Calibration
+# Run: python scripts/calibrate_camera.py to auto-generate these values
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Intrinsic Parameters ──────────────────────────────────────────────────────
+intrinsics:
+  # Focal length in pixels (fx, fy)
+  fx: 1050.0
+  fy: 1050.0
+  # Principal point (cx, cy) — usually image center
+  cx: 960.0
+  cy: 540.0
+  # Full camera matrix K = [[fx, 0, cx], [0, fy, cy], [0, 0, 1]]
+
+# ── Distortion Coefficients ───────────────────────────────────────────────────
+distortion:
+  k1: -0.28
+  k2: 0.07
+  p1: 0.0
+  p2: 0.0
+  k3: 0.0
+
+# ── Extrinsic Parameters (Camera Mounting - Hawkeye MVP) ──────────────────────
+extrinsics:
+  # Height of dashcam above road surface (meters)
+  camera_height_m: 2.85
+  # Pitch angle (degrees, negative = looking down)
+  pitch_deg: -15.2
+  # Roll angle (degrees, ideally 0 for level mounting)
+  roll_deg: 0.0
+  # Yaw offset from vehicle forward direction (degrees)
+  yaw_deg: 0.0
+  # Ground resolution at nadir
+  resolution_mm_px: 0.9
+
+# ── Image Resolution ──────────────────────────────────────────────────────────
+resolution:
+  width: 1920
+  height: 1080
+
+# ── Homography (Ground Plane) ─────────────────────────────────────────────────
+homography:
+  # Source points in image (bottom region — road surface)
+  src_points:
+    - [576, 810]
+    - [1344, 810]
+    - [1728, 1080]
+    - [192, 1080]
+  # Destination points (real-world, in meters from camera)
+  # Assumes standard Indian 2-lane road (~7m width)
+  dst_points:
+    - [0.0, 10.0]
+    - [7.0, 10.0]
+    - [7.0, 0.0]
+    - [0.0, 0.0]
+  # Pixels per meter at ground plane (1000 / 0.9)
+  pixels_per_meter: 1111.1
+
+# ── Reference Object Sizes ────────────────────────────────────────────────────
+reference:
+  # Standard Indian road lane width (IRC standards)
+  lane_width_m: 3.5
+  # Standard NH shoulder width
+  shoulder_width_m: 2.5
+  # Manhole diameter (standard)
+  manhole_diameter_m: 0.6

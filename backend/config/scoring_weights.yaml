@@ -1,0 +1,136 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Safety Scoring Weights
+# Final score = 100 - sum(penalties)
+# Risk levels: GOOD(80-100), MODERATE(60-79), POOR(40-59), CRITICAL(0-39)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Road Geometry Penalties ───────────────────────────────────────────────────
+road_width:
+  min_acceptable_m: 5.5       # Below this → penalty
+  penalty_narrow: 20          # Road width < 5.5m
+  penalty_very_narrow: 30     # Road width < 3.5m (single lane)
+
+shoulder_width:
+  min_acceptable_m: 0.5
+  penalty_no_shoulder: 10     # No shoulder detected
+  penalty_narrow_shoulder: 5  # Shoulder < 0.5m
+
+# ── Crack Penalties (type-specific) ──────────────────────────────────────────
+cracks:
+  # Alligator crack — most severe (structural fatigue failure)
+  alligator:
+    severity_weight: 1.0
+    thresholds:
+      - coverage_pct: 1.0
+        penalty: 15
+      - coverage_pct: 5.0
+        penalty: 25
+      - coverage_pct: 10.0
+        penalty: 35
+
+  # Longitudinal crack — moderate severity
+  longitudinal:
+    severity_weight: 0.7
+    thresholds:
+      - coverage_pct: 2.0
+        penalty: 8
+      - coverage_pct: 5.0
+        penalty: 15
+      - coverage_pct: 10.0
+        penalty: 22
+
+  # Transverse crack — lower severity
+  transverse:
+    severity_weight: 0.6
+    thresholds:
+      - coverage_pct: 2.0
+        penalty: 6
+      - coverage_pct: 5.0
+        penalty: 12
+      - coverage_pct: 10.0
+        penalty: 18
+
+  # Inverse crack (block/grid pattern)
+  inverse:
+    severity_weight: 0.8
+    thresholds:
+      - coverage_pct: 2.0
+        penalty: 10
+      - coverage_pct: 5.0
+        penalty: 18
+      - coverage_pct: 10.0
+        penalty: 28
+
+# ── Pothole Penalties ─────────────────────────────────────────────────────────
+potholes:
+  # Per-pothole penalty by depth severity
+  minor:
+    depth_max_cm: 3.0
+    penalty_each: 2
+    max_penalty: 10
+  moderate:
+    depth_min_cm: 3.0
+    depth_max_cm: 7.0
+    penalty_each: 5
+    max_penalty: 20
+  severe:
+    depth_min_cm: 7.0
+    depth_max_cm: 15.0
+    penalty_each: 8
+    max_penalty: 25
+  critical:
+    depth_min_cm: 15.0
+    penalty_each: 12
+    max_penalty: 35
+
+# ── Infrastructure Penalties ──────────────────────────────────────────────────
+infrastructure:
+  no_signboards:
+    penalty: 5
+  no_guardrail_on_curve:
+    penalty: 8
+  no_drainage:
+    penalty: 6
+
+# ── Surface Type Modifiers ────────────────────────────────────────────────────
+surface_type:
+  asphalt:
+    modifier: 0           # No change
+  concrete:
+    modifier: 0           # No change
+  gravel:
+    modifier: -5          # Base deduction for unpaved surface
+  unpaved:
+    modifier: -15         # Significant deduction
+
+# ── Risk Level Thresholds ─────────────────────────────────────────────────────
+risk_levels:
+  good:
+    min_score: 80
+    label: GOOD
+    color: "#22c55e"
+  moderate:
+    min_score: 60
+    label: MODERATE
+    color: "#f59e0b"
+  poor:
+    min_score: 40
+    label: POOR
+    color: "#ef4444"
+  critical:
+    min_score: 0
+    label: CRITICAL
+    color: "#7c3aed"
+
+# ── Repair Cost Estimates (in INR) ──────────────────────────────────────────
+repair_costs:
+  pothole:
+    minor: 450         # Per pothole patch
+    moderate: 1200
+    severe: 2800
+    critical: 5500
+  cracks:
+    sealing_sqm: 185   # Cost per sq meter of crack sealing
+  surface:
+    asphalt_overlay_sqm: 850
+    concrete_panel_repair: 4500

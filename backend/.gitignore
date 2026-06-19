@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Environment Variables — NEVER commit these!
+.env
+.env.local
+.env.*.local
+
+# Model Weights (too large for git — use DVC or direct download)
+*.pt
+*.pth
+*.onnx
+*.pkl
+
+# Outputs & Uploads
+data/uploads/
+outputs/
+logs/
+
+# Database
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

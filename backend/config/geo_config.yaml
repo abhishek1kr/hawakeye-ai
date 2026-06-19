@@ -1,0 +1,63 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Geo / GPS Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── GPS Input ─────────────────────────────────────────────────────────────────
+gps:
+  enabled: true
+  # Accepted formats: gpx | nmea | csv
+  format: gpx
+  # CSV column names (for CSV format)
+  csv_columns:
+    timestamp: timestamp
+    latitude: lat
+    longitude: lon
+    altitude: alt
+    speed: speed_kmh
+  # Time sync tolerance (seconds) between GPS and video
+  sync_tolerance_sec: 1.0
+  # Coordinate Reference System
+  crs: EPSG:4326
+
+# ── GeoJSON Output ────────────────────────────────────────────────────────────
+geojson:
+  enabled: true
+  output_dir: outputs/geojson
+  # Feature properties to include
+  properties:
+    - frame_id
+    - timestamp
+    - detection_type
+    - crack_type
+    - severity
+    - confidence
+    - safety_score
+    - road_width_m
+  # Color coding for Folium/GeoJSON map
+  colors:
+    pothole: "#ef4444"
+    alligator_crack: "#dc2626"
+    longitudinal_crack: "#f97316"
+    transverse_crack: "#eab308"
+    inverse_crack: "#a855f7"
+    manhole: "#3b82f6"
+    signboard: "#22c55e"
+    guardrail: "#14b8a6"
+    good: "#22c55e"
+    moderate: "#f59e0b"
+    poor: "#ef4444"
+    critical: "#7c3aed"
+
+# ── Road Segment Splitting ─────────────────────────────────────────────────────
+segmentation:
+  # Split road into segments of this length for reporting
+  segment_length_m: 100.0
+  # Minimum GPS points per segment
+  min_points_per_segment: 5
+
+# ── Map Output ────────────────────────────────────────────────────────────────
+map:
+  # Folium map tile provider
+  tile_provider: OpenStreetMap    # or CartoDB positron
+  zoom_start: 15
+  output_file: outputs/road_condition_map.html

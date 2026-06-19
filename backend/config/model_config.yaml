@@ -1,0 +1,100 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Model Configuration — AI Road Inventory & Condition Evaluation System
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── Model 2: U-Net Pavement Crack Segmenter ──────────────────────────────────────
+crack_detector_yolo:
+  model_type: unet
+  weights: models/weights/crack_unet.pth
+  confidence: 0.25
+  imgsz: 256
+  device: auto
+
+# ── Model 1.1: YOLO Pothole Segmenter (Upgraded — mAP@0.5 = 0.995) ──────────
+# Model : keremberke/yolov8n-pothole-segmentation
+# Source: https://huggingface.co/keremberke/yolov8n-pothole-segmentation
+# Task  : segment (gives BOTH bounding boxes + pixel masks for exact area)
+# Run   : python scripts/download_pothole_model.py   ← to download weights
+pothole_detector:
+  weights: models/weights/pothole_detector_y8.pt
+  confidence: 0.20
+  imgsz: 640
+  device: auto
+  imgsz: 640
+  device: auto
+
+yolo11_detector:
+  weights: yolo11m.pt
+  confidence: 0.20
+  iou: 0.45
+  imgsz: 640
+  task: detect
+  device: auto
+
+# ── Model 4: YOLO11 Road Segmenter (Advanced Upgrade) ──────────────────────
+road_segmenter_yolo:
+  weights: models/weights/yolo11m-road-seg.pt
+  imgsz: 640
+  device: auto
+
+# ── Model 5: Indian Traffic Sign Detector ─────────────────────────────────────
+sign_detector:
+  weights: models/weights/indian_signs_yolov8.pt # akanksha-2002 repo
+  confidence: 0.35
+  imgsz: 640
+  device: auto
+
+# ── Model 6: Road Surface Classifier ──────────────────────────────────────────
+surface_classifier:
+  weights: models/weights/surface_classifier.pth
+  architecture: resnet18
+  in_channels: 3
+  classes: 4
+  class_map:
+    0: asphalt
+    1: concrete
+    2: gravel
+    3: unpaved
+  imgsz: 224
+  device: auto
+
+# ── Model 7: Hugging Face Zero-Shot Object Detector ───────────────────────────
+zeroshot_detector:
+  enabled: false
+  model: google/owlvit-base-patch32
+  prompts:
+    - traffic sign
+    - speed limit sign
+    - stop sign
+    - guardrail
+  confidence: 0.10
+  device: auto
+
+# ── Model 8: Hugging Face Monocular Depth Estimator ─────────────────────────
+depth_estimator:
+  enabled: false
+  model: LiheYoung/depth-anything-small-hf
+  device: auto
+
+# ── Pre-processing Settings ──────────────────────────────────────────────────
+pre_processing:
+  use_dehazing: true
+  sharpen_factor: 1.2
+  color_correction: true
+  bilateral_filter: true
+
+# ── Inference Settings ─────────────────────────────────────────────────────────
+inference:
+  frame_skip: 5                                    # Process every Nth frame
+  batch_size: 1
+  half_precision: false                            # FP16 for CUDA (set true for faster GPU inference)
+  save_visualizations: true
+  visualization_every_n: 30                        # Save annotated frame every N frames
+  auto_sync_cloud: false                           # IMP-20: Disable until CloudSync is fully implemented
+
+# ── Report Generator Settings ────────────────────────────────────────────────
+report_generator:
+  use_llm_summary: true
+  model: google/flan-t5-small
+  device: auto

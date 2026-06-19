@@ -1,0 +1,157 @@
+\documentclass[12pt,a4paper]{report}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{lipsum} % For generating filler text when needed to reach page goals
+
+% --- Page Setup ---
+\geometry{
+    top=1in,
+    bottom=1in,
+    left=1.5in, % Extra space for binding
+    right=1in
+}
+\setstretch{1.5} % 1.5 line spacing
+
+% --- Bibliography ---
+\addbibresource{references.bib}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+}
+
+% --- Code Listing Setup ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- Header and Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\fancyhead[L]{\nouppercase{\leftmark}}
+
+% --- Document Information ---
+\title{\textbf{Cognitive Road Intelligence (Hawkeye AI): \\ An Automated Dashcam Pipeline for Real-time Infrastructure Evaluation}}
+\author{Abhisek kumar}
+\date{\today}
+
+\begin{document}
+
+% --- Title Page ---
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries Cognitive Road Intelligence \\ (Hawkeye AI)\par}
+    \vspace{1cm}
+    {\Large\itshape An Automated Dashcam Pipeline for Real-time Infrastructure Evaluation\par}
+    
+    \vspace{3cm}
+    
+    {\Large Submitted by:\par}
+    {\Large\bfseries Abhisek kumar \\ Enrollment No: CUSB2402332007\par}
+    
+    \vfill
+    
+    {\Large A thesis submitted in partial fulfillment of the requirements for the degree of\par}
+    {\Large\bfseries Bachelor/Master of Technology\par}
+    
+    \vspace{1cm}
+    
+    {\large Department of Computer Science \& Engineering\par}
+    {\large CSIR DELHI\par}
+    {\large \today\par}
+\end{titlepage}
+
+\pagenumbering{roman} % Roman numerals for front matter
+
+% --- Abstract ---
+\addcontentsline{toc}{chapter}{Abstract}
+\begin{abstract}
+Traditional road infrastructure evaluation processes are predominantly manual, requiring significant time, cost, and human effort. This approach is highly susceptible to human error and subjective interpretation, resulting in inconsistent maintenance schedules and safety hazards. This thesis presents "Cognitive Road Intelligence (Hawkeye AI)", an automated, multi-modal pipeline designed to evaluate road infrastructure conditions in real-time using dashcam video feeds. 
+
+The system utilizes an advanced pre-processing module for video stabilization, undistortion, and image enhancement. The core intelligence pipeline leverages a suite of Deep Learning models, including YOLO11 for general object and traffic sign detection, specialized YOLOv8 models for pothole and crack localization, YOLO-Seg for drivable area segmentation, and ResNet18 for surface classification. Monocular depth estimation is integrated to assess crack severity volumetrically. Detections are tracked temporally using the DeepSORT algorithm and synchronized with GPS and Heartbeat telemetry for precise spatial mapping. 
+
+A deterministic scoring engine mathematically aggregates frame-level metrics into a normalized 0-100 Safety Score, penalizing for severe distresses like alligator cracks, missing shoulders, and poor infrastructure. The system autonomously generates comprehensive GeoJSON maps and Natural Language Summaries via LLMs (Flan-T5) packaged into a final PDF report. The proposed system demonstrates a robust leap toward scalable, objective, and fully automated civil infrastructure monitoring.
+\end{abstract}
+\clearpage
+
+% --- Acknowledgements ---
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\chapter*{Acknowledgements}
+I would like to express my deepest appreciation to my advisors, professors, and peers who have guided this research. I also extend my gratitude to the open-source community for providing the foundational frameworks such as PyTorch, Ultralytics, FastAPI, and React, which made the development of Hawkeye AI possible.
+\clearpage
+
+% --- Table of Contents ---
+\tableofcontents
+\clearpage
+
+% --- Lists of Figures and Tables ---
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+\pagenumbering{arabic} % Switch to normal numbers
+
+% --- Chapters ---
+\include{chapters/01_introduction}
+\include{chapters/02_literature_review}
+\include{chapters/03_system_architecture}
+\include{chapters/04_implementation}
+\include{chapters/05_results_evaluation}
+\include{chapters/06_conclusion}
+
+% --- References ---
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+
+\end{document}
