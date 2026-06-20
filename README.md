@@ -5,7 +5,7 @@
 [![React](https://img.shields.io/badge/React-v18-61DAFB.svg)](https://reactjs.org/)
 [![YOLO11](https://img.shields.io/badge/AI-YOLO11-red.svg)](https://ultralytics.com/)
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 Abhishek_Project/
@@ -18,14 +18,14 @@ Abhishek_Project/
 └── README.md           # This guide
 ```
 
-## 🚀 Key Features
+##  Key Features
 
 - **YOLO11 Power**: High-precision detection and segmentation of potholes and cracks.
 - **Geospatial Mapping**: Interactive Leaflet maps with color-coded road health.
 - **Maintenance Budgeting**: Automated repair cost estimation in INR.
 - **Enterprise Security**: JWT-based user authentication.
 
-## 🚦 Setup & Execution
+##  Setup & Execution
 
 ### 1. Backend Setup
 ```bash
