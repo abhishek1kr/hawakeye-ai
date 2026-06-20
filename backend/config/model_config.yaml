@@ -61,7 +61,7 @@ surface_classifier:
 
 # ── Model 7: Hugging Face Zero-Shot Object Detector ───────────────────────────
 zeroshot_detector:
-  enabled: false
+  enabled: true
   model: google/owlvit-base-patch32
   prompts:
     - traffic sign
